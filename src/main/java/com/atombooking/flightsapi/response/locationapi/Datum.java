@@ -38,18 +38,10 @@ public class Datum {
     private String detailedName;
     @JsonProperty("id")
     private String id;
-    @JsonProperty("self")
-    private Self self;
-    @JsonProperty("timeZoneOffset")
-    private String timeZoneOffset;
     @JsonProperty("iataCode")
     private String iataCode;
-    @JsonProperty("geoCode")
-    private GeoCode geoCode;
     @JsonProperty("address")
     private Address address;
-    @JsonProperty("analytics")
-    private Analytics analytics;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -103,26 +95,6 @@ public class Datum {
         this.id = id;
     }
 
-    @JsonProperty("self")
-    public Self getSelf() {
-        return self;
-    }
-
-    @JsonProperty("self")
-    public void setSelf(Self self) {
-        this.self = self;
-    }
-
-    @JsonProperty("timeZoneOffset")
-    public String getTimeZoneOffset() {
-        return timeZoneOffset;
-    }
-
-    @JsonProperty("timeZoneOffset")
-    public void setTimeZoneOffset(String timeZoneOffset) {
-        this.timeZoneOffset = timeZoneOffset;
-    }
-
     @JsonProperty("iataCode")
     public String getIataCode() {
         return iataCode;
@@ -133,15 +105,6 @@ public class Datum {
         this.iataCode = iataCode;
     }
 
-    @JsonProperty("geoCode")
-    public GeoCode getGeoCode() {
-        return geoCode;
-    }
-
-    @JsonProperty("geoCode")
-    public void setGeoCode(GeoCode geoCode) {
-        this.geoCode = geoCode;
-    }
 
     @JsonProperty("address")
     public Address getAddress() {
@@ -151,16 +114,6 @@ public class Datum {
     @JsonProperty("address")
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    @JsonProperty("analytics")
-    public Analytics getAnalytics() {
-        return analytics;
-    }
-
-    @JsonProperty("analytics")
-    public void setAnalytics(Analytics analytics) {
-        this.analytics = analytics;
     }
 
     @JsonAnyGetter

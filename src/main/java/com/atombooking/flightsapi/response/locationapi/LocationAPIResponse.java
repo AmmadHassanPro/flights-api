@@ -20,22 +20,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("jsonschema2pojo")
 public class LocationAPIResponse {
 
-    @JsonProperty("meta")
-    private Meta meta;
+    
     @JsonProperty("data")
     private List<Datum> data;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
-
-    @JsonProperty("meta")
-    public Meta getMeta() {
-        return meta;
-    }
-
-    @JsonProperty("meta")
-    public void setMeta(Meta meta) {
-        this.meta = meta;
-    }
 
     @JsonProperty("data")
     public List<Datum> getData() {
