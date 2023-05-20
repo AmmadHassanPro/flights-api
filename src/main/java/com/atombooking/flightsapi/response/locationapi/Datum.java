@@ -18,12 +18,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "name",
     "detailedName",
     "id",
-    "self",
-    "timeZoneOffset",
     "iataCode",
     "geoCode",
-    "address",
-    "analytics"
+    "address"
 })
 @Generated("jsonschema2pojo")
 public class Datum {
