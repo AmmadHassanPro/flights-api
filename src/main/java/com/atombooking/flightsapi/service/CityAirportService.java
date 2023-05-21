@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CityAirportService {
 
-	String getCity(String keyword);
-	String getAirport(String keyword);
+	String getCityAndAirport(String keyword);
 	
 }

@@ -13,13 +13,7 @@ public class CityAirportServiceImpl implements CityAirportService {
 	WebClient client;
 	
 	@Override
-	public String getCity(String keyword) {
-		
-		return null;
-	}
-
-	@Override
-	public String getAirport(String keyword) {
+	public String getCityAndAirport(String keyword) {
 		// TODO Auto-generated method stub
 		return null;
 	}
