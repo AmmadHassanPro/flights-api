@@ -22,13 +22,18 @@ import reactor.core.publisher.Mono;
 @Service
 public class CityAirportServiceImpl implements CityAirportService {
 	
-	@Autowired
+	
 	WebClient client;
-	@Value("${amadeus.base}")
+	
 	String base;
-	@Value("${amadeus.airportAndCityEndpoint}")
+	
 	String endpointUrl;
-
+	
+	public CityAirportServiceImpl(WebClient client,@Value("${amadeus.base}") String base,@Value("${amadeus.airportAndCityEndpoint}") String endpointUrl) {
+		this.client = client;
+		this.base= base;
+		this.endpointUrl = endpointUrl;
+	}
 	
 	@Override
 	public LocationAPIConvResp getCityAndAirport(String keyword) {
