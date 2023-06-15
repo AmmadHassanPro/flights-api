@@ -28,7 +28,7 @@ class CityAirportServiceImplTest {
 	static MockWebServer mockBackEnd;
 	
 	@BeforeEach 
-	public void init2() throws IOException{
+	public void init() throws IOException{
 		mockBackEnd = new MockWebServer();
 
 		mockBackEnd.start();
