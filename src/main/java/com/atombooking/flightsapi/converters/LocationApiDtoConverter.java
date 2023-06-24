@@ -70,7 +70,7 @@ public class LocationApiDtoConverter {
 		return resp2;
 	}
 
-	private Datum2 copyData(Datum data) {
+	private Datum2 copyData(Datum data)  {
 		return DatumMapper.INSTANCE.convert(data);
 	}
 }
