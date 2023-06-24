@@ -37,11 +37,11 @@ public class LocationApiDtoConverter {
 	public LocationApiDto convertToDto(LocationAPIResponse resp) {
 		
 		LocationApiDto resp2 = new LocationApiDto();
-		List<Datum2> newData = new ArrayList<Datum2>();
+		List<Datum2> newData = new ArrayList<>();
 		resp2.setData(newData);
 		//go over responses and group the airports by the city code
 		
-		Map<String, List<Datum>> map = new HashMap<String, List<Datum>>();
+		Map<String, List<Datum>> map = new HashMap<>();
 		
 		if(resp.getData()!=null) {
 			// grouping all the airports by city code
@@ -49,7 +49,7 @@ public class LocationApiDtoConverter {
 				String cityCode = data.getAddress().getCityCode();
 				if(data.getSubType().equals("AIRPORT")) {
 					if(!map.containsKey(cityCode)) {
-						map.put(cityCode, new ArrayList<Datum>());
+						map.put(cityCode, new ArrayList<>());
 					}
 					
 					map.get(cityCode).add(data);
