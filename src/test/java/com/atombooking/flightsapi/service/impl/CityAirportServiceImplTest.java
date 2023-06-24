@@ -51,7 +51,7 @@ class CityAirportServiceImplTest {
 	@Test
 	@Order(1) 
 	void getCityAndAirportResponse() {		   
-		setKeywordDispatch("chicago");		
+		setDispatcher("chicago");		
 		LocationApiDto resp = obj.getCityAndAirport("chicago");
 		Assertions.assertTrue(!resp.getData().isEmpty());
 	}
@@ -70,7 +70,7 @@ class CityAirportServiceImplTest {
 	}
 	
 	
-	private void setKeywordDispatch(String keyword) {
+	private void setDispatcher(String keyword) {
 		
 		final Dispatcher dispatcher = new Dispatcher() {
 
