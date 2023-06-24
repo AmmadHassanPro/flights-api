@@ -2,7 +2,7 @@ package com.atombooking.flightsapi.response.locationapi;
 
 import java.util.List;
 
-public class LocationAPIConvResp {
+public class LocationApiDto {
     
     
     private List<Datum2> data;

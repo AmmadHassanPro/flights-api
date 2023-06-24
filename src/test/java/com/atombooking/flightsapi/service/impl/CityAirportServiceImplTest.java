@@ -19,7 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.atombooking.flightsapi.mocks.LocationApiMockReponse;
-import com.atombooking.flightsapi.response.locationapi.LocationAPIConvResp;
+import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
 
 import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
@@ -52,7 +52,7 @@ class CityAirportServiceImplTest {
 	@Order(1) 
 	void getCityAndAirportResponse() {		   
 		setKeywordDispatch("chicago");		
-		LocationAPIConvResp resp = obj.getCityAndAirport("chicago");
+		LocationApiDto resp = obj.getCityAndAirport("chicago");
 		Assertions.assertTrue(!resp.getData().isEmpty());
 	}
 	
