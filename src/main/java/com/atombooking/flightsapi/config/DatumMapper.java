@@ -19,6 +19,5 @@ public interface DatumMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "iataCode", target = "iataCode")
     @Mapping(source = "address", target = "address")
-   // @Mapping(source = "additionalProperties", target = "additionalProperties")
 	Datum2 convert(Datum data);
 }
