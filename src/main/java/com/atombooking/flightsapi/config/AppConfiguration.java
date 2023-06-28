@@ -2,15 +2,20 @@
 package com.atombooking.flightsapi.config;
 
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryReactiveClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.client.web.server.UnAuthenticatedServerOAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.reactive.function.client.WebClient;
+import static org.springframework.security.config.Customizer.withDefaults;
+
 
 @Configuration
 public class AppConfiguration {
@@ -44,6 +49,14 @@ public class AppConfiguration {
         return new InMemoryReactiveClientRegistrationRepository(registration);
     }
 	
-    
-	
+    // Allowing any request to come to our api without authentication
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests((authz) -> authz
+                                .anyRequest().permitAll()
+                )
+                .httpBasic(withDefaults());
+        return http.build();
+    }
 }
