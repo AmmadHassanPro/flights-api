@@ -23,7 +23,7 @@ public class MainController {
 	@GetMapping("get-city-and-airport/{keyword}")
 	public ResponseEntity<LocationApiDto> getCityAndAirports(@PathVariable String keyword) {
 		LocationApiDto resp =  service.getCityAndAirport(keyword);
-		if(resp.getData().size() == 0) {
+		if( resp.getData() == null || resp.getData().size() == 0) {
 			return new ResponseEntity<>(new LocationApiDto(), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(resp, HttpStatus.OK);
