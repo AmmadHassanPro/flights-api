@@ -24,7 +24,7 @@ public class FlightOffersResponse {
     @JsonProperty("meta")
     private Meta meta;
     @JsonProperty("data")
-    private List<Datum> data;
+    private List<Data> data;
     @JsonProperty("dictionaries")
     private Dictionaries dictionaries;
     @JsonIgnore
@@ -41,12 +41,12 @@ public class FlightOffersResponse {
     }
 
     @JsonProperty("data")
-    public List<Datum> getData() {
+    public List<Data> getData() {
         return data;
     }
 
     @JsonProperty("data")
-    public void setData(List<Datum> data) {
+    public void setData(List<Data> data) {
         this.data = data;
     }
 
