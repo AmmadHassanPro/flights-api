@@ -1,6 +1,5 @@
 package com.atombooking.flightsapi.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +14,13 @@ import com.atombooking.flightsapi.service.CityAirportService;
 @RequestMapping("/v1/flights-api/")
 public class MainController {
 	
-	@Autowired
-	CityAirportService service;
+	private CityAirportService service;
 	
-	@GetMapping("getCityAndAirport/{keyword}")
+	public MainController(CityAirportService ser) {
+		this.service= ser;
+	}
+	
+	@GetMapping("get-city-and-airport/{keyword}")
 	public ResponseEntity<LocationApiDto> getCityAndAirports(@PathVariable String keyword) {
 		LocationApiDto resp =  service.getCityAndAirport(keyword);
 		if(resp.getData().size() == 0) {
