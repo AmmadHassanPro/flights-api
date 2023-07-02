@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "travelerPricings"
 })
 @Generated("jsonschema2pojo")
-public class Datum {
+public class Data {
 
     @JsonProperty("type")
     private String type;
