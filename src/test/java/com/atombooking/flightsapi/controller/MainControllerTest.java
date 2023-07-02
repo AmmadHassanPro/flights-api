@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,12 +38,20 @@ public class MainControllerTest {
 	
 	
 	@Test
-	public void mainControllerTest1() throws Exception {
+	public void shouldReturnValidRespwithValidIn() throws Exception {
 		
 		when(service.getCityAndAirport(eq("Chicago"))).thenReturn(getTestResp());
 		
-		this.mockMvc.perform(get("/v1/flights-api/get-city-and-airport/Chicago")).andDo(print()).andExpect(status().isOk())
+		this.mockMvc.perform(get("/v1/flights-api/get-city-and-airport/Chicago")).andExpect(status().isOk())
 		.andExpect(content().string(containsString("O HARE INTERNATIONAL")));
+		
+	}
+	
+	@Test
+	public void shouldReturn404() throws Exception {
+		when(service.getCityAndAirport(eq("nonExistentCity"))).thenReturn(new LocationApiDto());
+		
+		this.mockMvc.perform(get("/v1/flights-api/get-city-and-airport/nonExistentCity")).andExpect(status().isNotFound());
 		
 	}
 	
