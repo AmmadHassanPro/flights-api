@@ -27,7 +27,7 @@ public class FlightOffersTest {
 	
 	@Test
 	public void testResponse() {
-		FlightOffersResponse resp = service.getFlightOffers("SYD", "BKK", LocalDate.parse("2023-07-10"),  Optional.of(LocalDate.parse("2023-07-15")), 1 , false);
+		FlightOffersResponse resp = service.getFlightOffers("SYD", "BKK", LocalDate.parse(LocalDate.now().plusDays(5).format(DateTimeFormatter.ISO_LOCAL_DATE)),  Optional.of(LocalDate.parse(LocalDate.now().plusDays(10).format(DateTimeFormatter.ISO_LOCAL_DATE))), 1 , false);
 		System.out.println(resp);
 	}
 
