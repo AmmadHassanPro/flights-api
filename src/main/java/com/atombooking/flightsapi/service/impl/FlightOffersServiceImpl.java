@@ -16,6 +16,8 @@ public class FlightOffersServiceImpl implements FlightOffersService{
 	private WebClient client;
 	private String base;
 	private String endpointUrl;
+	@Value("${amadeus.maxNumberOfFlights}")
+	private int maxFlights;
 	
 	public FlightOffersServiceImpl(WebClient client,@Value("${amadeus.base}") String base,@Value("${amadeus.flightOffersEndpoint}") String endpointUrl) {
 		this.client = client;
@@ -26,14 +28,15 @@ public class FlightOffersServiceImpl implements FlightOffersService{
 	@Override
 	public FlightOffersResponse getFlightOffers(String Orig, String Dest, LocalDate Depart, LocalDate Return, Integer numberOfAdults) {
 		
-		Mono<FlightOffersResponse> resp = client.get().uri(
+		Mono<FlightOffersResponse> resp = client.get().uri(base+ endpointUrl, 
 				uriBuilder ->
-				uriBuilder.path(base + endpointUrl)
+				uriBuilder
 				.queryParam("originLocationCode", Orig)
 				.queryParam("destinationLocationCode", Dest)
 				.queryParam("departureDate", Depart)
 				.queryParam("returnDate", Return)
 				.queryParam("adults", numberOfAdults)
+				.queryParam("max", maxFlights) // setting max number of flight records to return
 				.build())
 				.retrieve()
 				.bodyToMono(FlightOffersResponse.class);
