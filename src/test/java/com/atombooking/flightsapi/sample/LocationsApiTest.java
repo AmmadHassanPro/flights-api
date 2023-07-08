@@ -1,4 +1,4 @@
-package com.atombooking.flightsapi.integration;
+package com.atombooking.flightsapi.sample;
 
 import static org.junit.jupiter.api.Assertions.*;
 
