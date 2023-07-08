@@ -1,6 +1,7 @@
 package com.atombooking.flightsapi.service.impl;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,18 +27,28 @@ public class FlightOffersServiceImpl implements FlightOffersService{
 	}
 	
 	@Override
-	public FlightOffersResponse getFlightOffers(String Orig, String Dest, LocalDate Depart, LocalDate Return, Integer numberOfAdults) {
+	public FlightOffersResponse getFlightOffers(String Orig, String Dest, LocalDate Depart, Optional<LocalDate> Return, Integer numberOfAdults, boolean nonStop) {
 		
 		Mono<FlightOffersResponse> resp = client.get().uri(base+ endpointUrl, 
 				uriBuilder ->
+			{
 				uriBuilder
 				.queryParam("originLocationCode", Orig)
 				.queryParam("destinationLocationCode", Dest)
 				.queryParam("departureDate", Depart)
-				.queryParam("returnDate", Return)
 				.queryParam("adults", numberOfAdults)
-				.queryParam("max", maxFlights) // setting max number of flight records to return
-				.build())
+				.queryParam("max", maxFlights); // setting max number of flight records to return
+				if(Return.isPresent()) {
+					uriBuilder.queryParam("returnDate" , Return.get());
+				}
+				
+				if(nonStop) {
+					uriBuilder.queryParam("nonStop" , nonStop);
+				}
+				
+				return uriBuilder.build();
+			}
+				)
 				.retrieve()
 				.bodyToMono(FlightOffersResponse.class);
 		
