@@ -14,15 +14,15 @@ import com.atombooking.flightsapi.service.CityAirportService;
 @RequestMapping("/v1/flights-api/")
 public class MainController {
 	
-	private CityAirportService service;
+	private CityAirportService cAService;
 	
 	public MainController(CityAirportService ser) {
-		this.service= ser;
+		this.cAService= ser;
 	}
 	
 	@GetMapping("get-city-and-airport/{keyword}")
 	public ResponseEntity<LocationApiDto> getCityAndAirports(@PathVariable String keyword) {
-		LocationApiDto resp =  service.getCityAndAirport(keyword);
+		LocationApiDto resp =  cAService.getCityAndAirport(keyword);
 		if( resp.getData() == null || resp.getData().size() == 0) {
 			return new ResponseEntity<>(new LocationApiDto(), HttpStatus.NOT_FOUND);
 		}
