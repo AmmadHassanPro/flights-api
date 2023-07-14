@@ -1,5 +1,7 @@
 package com.atombooking.flightsapi.service.impl;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +19,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 
 @SpringBootTest
 public class FlightOffersServiceImplTest {	
-	int port = 8090;
+	static int port = 8090;
 
 	@Autowired
 	WebClient client;
@@ -31,11 +33,17 @@ public class FlightOffersServiceImplTest {
 	
 	int maxFlights = 1;
 	
+	static WireMockServer wireMockServer;
+	
+	@BeforeAll
+	public static void init() {
+		wireMockServer = new WireMockServer(port);
+		wireMockServer.start();
+	}
+	
 	@Test
 	public void testgetFlightOffers() {
 		
-		WireMockServer wireMockServer = new WireMockServer(port);
-		wireMockServer.start();
 		service = new FlightOffersServiceImpl(client,base,endpointUrl);
 
 		LocalDate dep = LocalDate.now().plusDays(10);
@@ -56,10 +64,7 @@ public class FlightOffersServiceImplTest {
 				.willReturn(ok().withStatus(200).withBody(FlightOffersServiceMockResponse.MOCK_REPONSE).withHeader("Content-Type", "application/vnd.amadeus+json")));
 		
 		
-		FlightOffersResponse resp = service.getFlightOffers(source, dest, dep, Optional.of(ret), numOfAdults, nonStop);
-		
-		System.out.println(resp);
-		
+		FlightOffersResponse resp = service.getFlightOffers(source, dest, dep, Optional.of(ret), numOfAdults, nonStop);	
 		
 		wireMockServer.verify(getRequestedFor(urlPathEqualTo("/"+endpointUrl))
 				.withQueryParam("originLocationCode", equalTo(source))
@@ -69,5 +74,46 @@ public class FlightOffersServiceImplTest {
 				.withQueryParam("max", equalTo(String.valueOf(maxFlights)))
 				.withQueryParam("returnDate", equalTo(ret.toString()))
 				.withQueryParam("nonStop", equalTo(String.valueOf(nonStop))));
+		
 	}
+	
+	@Test
+	public void testgetFlightOffersWithoutOptionals() {
+		
+		service = new FlightOffersServiceImpl(client,base,endpointUrl);
+
+		LocalDate dep = LocalDate.now().plusDays(10);
+		LocalDate ret = LocalDate.now().plusDays(20); 
+		String source = "SYD";
+		String dest = "BKK";
+		int numOfAdults = 5;
+		boolean nonStop = false;
+		
+		wireMockServer.stubFor(get(urlPathEqualTo("/"+endpointUrl))
+				.withQueryParam("originLocationCode", equalTo(source))
+				.withQueryParam("destinationLocationCode", equalTo(dest))
+				.withQueryParam("departureDate", equalTo(dep.toString()))
+				.withQueryParam("adults", equalTo(String.valueOf(numOfAdults)))
+				.withQueryParam("max", equalTo(String.valueOf(maxFlights)))
+				.willReturn(ok().withStatus(200).withBody(FlightOffersServiceMockResponse.MOCK_REPONSE).withHeader("Content-Type", "application/vnd.amadeus+json")));
+		
+		
+		FlightOffersResponse resp = service.getFlightOffers(source, dest, dep, Optional.empty(), numOfAdults, nonStop);	
+		
+		wireMockServer.verify(getRequestedFor(urlPathEqualTo("/"+endpointUrl))
+				.withQueryParam("originLocationCode", equalTo(source))
+				.withQueryParam("destinationLocationCode", equalTo(dest))
+				.withQueryParam("departureDate", equalTo(dep.toString()))
+				.withQueryParam("adults", equalTo(String.valueOf(numOfAdults)))
+				.withQueryParam("max", equalTo(String.valueOf(maxFlights))));
+		
+	}
+	
+	
+	
+	@AfterAll
+	public static void destroy() {
+		wireMockServer.stop();
+	}
+	
 }
