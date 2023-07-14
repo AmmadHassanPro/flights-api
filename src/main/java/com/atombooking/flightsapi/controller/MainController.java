@@ -9,15 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
 import com.atombooking.flightsapi.service.CityAirportService;
+import com.atombooking.flightsapi.service.FlightOffersService;
 
 @RestController
 @RequestMapping("/v1/flights-api/")
 public class MainController {
 	
 	private CityAirportService cAService;
+	private FlightOffersService fOService;
 	
-	public MainController(CityAirportService ser) {
-		this.cAService= ser;
+	public MainController(CityAirportService cA, FlightOffersService fO) {
+		this.cAService= cA;
+		this.fOService = fO;
 	}
 	
 	@GetMapping("get-city-and-airport/{keyword}")
