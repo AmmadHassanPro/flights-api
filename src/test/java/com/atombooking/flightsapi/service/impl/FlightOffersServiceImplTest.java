@@ -59,5 +59,15 @@ public class FlightOffersServiceImplTest {
 		FlightOffersResponse resp = service.getFlightOffers(source, dest, dep, Optional.of(ret), numOfAdults, nonStop);
 		
 		System.out.println(resp);
+		
+		
+		wireMockServer.verify(getRequestedFor(urlPathEqualTo("/"+endpointUrl))
+				.withQueryParam("originLocationCode", equalTo(source))
+				.withQueryParam("destinationLocationCode", equalTo(dest))
+				.withQueryParam("departureDate", equalTo(dep.toString()))
+				.withQueryParam("adults", equalTo(String.valueOf(numOfAdults)))
+				.withQueryParam("max", equalTo(String.valueOf(maxFlights)))
+				.withQueryParam("returnDate", equalTo(ret.toString()))
+				.withQueryParam("nonStop", equalTo(String.valueOf(nonStop))));
 	}
 }
