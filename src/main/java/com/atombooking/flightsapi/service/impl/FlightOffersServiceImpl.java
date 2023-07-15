@@ -37,7 +37,8 @@ public class FlightOffersServiceImpl implements FlightOffersService{
 				.queryParam("destinationLocationCode", Dest)
 				.queryParam("departureDate", Depart)
 				.queryParam("adults", numberOfAdults)
-				.queryParam("max", maxFlights); // setting max number of flight records to return
+				.queryParam("max", maxFlights) // setting max number of flight records to return
+				.queryParam("currencyCode", "USD");
 				if(Return.isPresent()) {
 					uriBuilder.queryParam("returnDate" , Return.get());
 				}
