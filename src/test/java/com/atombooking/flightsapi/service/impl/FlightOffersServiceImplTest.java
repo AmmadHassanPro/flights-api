@@ -60,6 +60,7 @@ public class FlightOffersServiceImplTest {
 				.withQueryParam("adults", equalTo(String.valueOf(numOfAdults)))
 				.withQueryParam("max", equalTo(String.valueOf(maxFlights)))
 				.withQueryParam("returnDate", equalTo(ret.toString()))
+				.withQueryParam("currencyCode", equalTo("USD"))
 				.withQueryParam("nonStop", equalTo(String.valueOf(nonStop)))
 				.willReturn(ok().withStatus(200).withBody(FlightOffersServiceMockResponse.MOCK_REPONSE).withHeader("Content-Type", "application/vnd.amadeus+json")));
 		
@@ -73,6 +74,7 @@ public class FlightOffersServiceImplTest {
 				.withQueryParam("adults", equalTo(String.valueOf(numOfAdults)))
 				.withQueryParam("max", equalTo(String.valueOf(maxFlights)))
 				.withQueryParam("returnDate", equalTo(ret.toString()))
+				.withQueryParam("currencyCode", equalTo("USD"))
 				.withQueryParam("nonStop", equalTo(String.valueOf(nonStop))));
 		
 	}
