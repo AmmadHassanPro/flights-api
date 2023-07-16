@@ -75,7 +75,7 @@ public class FlightOffersServiceImplTest {
 				.withQueryParam("max", equalTo(String.valueOf(maxFlights)))
 				.withQueryParam("returnDate", equalTo(ret.toString()))
 				.withQueryParam("currencyCode", equalTo("USD"))
-				.withQueryParam("nonStop", equalTo(String.valueOf(nonStop))));
+				.withQueryParam("nonStop", equalTo(String.valueOf(nonStop))).withHeader("Authorization",matching(".*")));
 		
 	}
 	
