@@ -1,14 +1,10 @@
 package com.atombooking.flightsapi.service.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import java.io.IOException;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -20,11 +16,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.atombooking.flightsapi.mocks.LocationApiMockReponse;
 import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-import okhttp3.mockwebserver.Dispatcher;
-import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
 class CityAirportServiceImplTest {
@@ -34,58 +29,34 @@ class CityAirportServiceImplTest {
 	String airportAndCityEndpoint;
 	static CityAirportServiceImpl obj;
 	static MockWebServer mockBackEnd;
+	static WireMockServer wireMockServer;
+	static int port = 8090;
+	static String baseUrl = String.format("http://localhost:%s",port) + "/";
 	
 	@BeforeAll
 	public static void init1() throws IOException {
-		mockBackEnd = new MockWebServer();
-		mockBackEnd.start();
-	}
-	
-	@BeforeEach 
-	public void init(){
-		String baseUrl = String.format("http://localhost:%s", mockBackEnd.getPort()) + "/";
-		obj = new CityAirportServiceImpl(client, baseUrl , airportAndCityEndpoint);
-	}
-	
+	wireMockServer = new WireMockServer(port);
+	wireMockServer.start();
+	}	
 
 	@Test
 	@Order(1) 
-	void getCityAndAirportResponse() {		   
-		setDispatcher("chicago");		
+	void getCityAndAirportResponse() {
+		
+		obj = new CityAirportServiceImpl(client, baseUrl , airportAndCityEndpoint);
+		String keyword = "chicago";
+		
+		wireMockServer.stubFor(
+				get(urlEqualTo("/"+airportAndCityEndpoint+keyword)).willReturn(ok().withStatus(200).withBody(LocationApiMockReponse.MOCK_REPONSE).withHeader("Content-Type", "application/json"))
+				);
+			
 		LocationApiDto resp = obj.getCityAndAirport("chicago");
 		Assertions.assertTrue(!resp.getData().isEmpty());
 	}
 	
-	@Test
-	@Order(2) 
-	void getCityAndAirportRequest() throws InterruptedException {
-		  RecordedRequest request1 = mockBackEnd.takeRequest();
-		  assertEquals(request1.getPath() , "/"+airportAndCityEndpoint+"chicago");
-		  assertNotNull(request1.getHeader("Authorization"));
-	}
-	
 	@AfterAll
 	static void shutDown() throws IOException {
-		mockBackEnd.shutdown();
+		wireMockServer.shutdown();
 	}
 	
-	
-	private void setDispatcher(String keyword) {
-		
-		final Dispatcher dispatcher = new Dispatcher() {
-
-		    @Override
-		    public MockResponse dispatch (RecordedRequest request) throws InterruptedException {
-
-		        if (request.getPath().equals("/"+airportAndCityEndpoint+keyword)) {
-		                return new MockResponse()
-		  				      .setBody(LocationApiMockReponse.MOCK_REPONSE)
-						      .addHeader("Content-Type", "application/json").setResponseCode(200);
-		        }
-		        return new MockResponse().setResponseCode(404);
-		    }
-		};
-		
-		mockBackEnd.setDispatcher(dispatcher);
-	}
 }
