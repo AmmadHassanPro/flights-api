@@ -30,7 +30,13 @@ public class MainController {
 	
 	@GetMapping("get-city-and-airport/{keyword}")
 	public ResponseEntity<LocationApiDto> getCityAndAirports(@PathVariable String keyword) {
-		LocationApiDto resp =  cAService.getCityAndAirport(keyword);
+		LocationApiDto resp = null;
+		try {
+		resp =  cAService.getCityAndAirport(keyword);
+		}
+		catch(Exception ex) {
+			return new ResponseEntity<>(new LocationApiDto(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		if( resp.getData() == null || resp.getData().size() == 0) {
 			return new ResponseEntity<>(new LocationApiDto(), HttpStatus.NOT_FOUND);
 		}
@@ -43,8 +49,13 @@ public class MainController {
 		
 		LocalDate dep = LocalDate.parse(departureDate);
 		Optional<LocalDate> ret =  (returnDate.isEmpty()) ? Optional.empty() : Optional.of(LocalDate.parse(returnDate.get()));
-		
-		FlightOffersResponse resp = fOService.getFlightOffers(originLocationCode, destinationLocationCode, dep, ret, adults, nonStop);
+		FlightOffersResponse resp = null;
+		try {
+		resp = fOService.getFlightOffers(originLocationCode, destinationLocationCode, dep, ret, adults, nonStop);
+		}
+		catch (Exception ex) {
+			return new ResponseEntity<>(new FlightOffersResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		
 		if(resp== null || resp.getData()== null || resp.getData().size()==0) {
 			return new ResponseEntity<>(new FlightOffersResponse(), HttpStatus.NOT_FOUND);
