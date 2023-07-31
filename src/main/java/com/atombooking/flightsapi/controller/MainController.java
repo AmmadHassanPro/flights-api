@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.atombooking.flightsapi.config.EndpointUrls;
 import com.atombooking.flightsapi.response.flightofffers.FlightOffersResponse;
 import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
 import com.atombooking.flightsapi.service.CityAirportService;
 import com.atombooking.flightsapi.service.FlightOffersService;
 
 @RestController
-@RequestMapping("/v1/flights-api/")
+@RequestMapping(EndpointUrls.MAIN_CONTROLLER_V1)
 public class MainController {
 	
 	private CityAirportService cAService;
@@ -28,7 +29,7 @@ public class MainController {
 		this.fOService = fO;
 	}
 	
-	@GetMapping("get-city-and-airport/{keyword}")
+	@GetMapping(EndpointUrls.GET_CITY_AND_AIRPORT+"/{keyword}")
 	public ResponseEntity<LocationApiDto> getCityAndAirports(@PathVariable String keyword) {
 		LocationApiDto resp = null;
 		try {
@@ -43,7 +44,7 @@ public class MainController {
 		return new ResponseEntity<>(resp, HttpStatus.OK);
 	}
 	
-	@GetMapping("get-offers")
+	@GetMapping(EndpointUrls.GET_OFFERS)
 	public ResponseEntity<FlightOffersResponse> getFlightOffers(@RequestParam String originLocationCode , @RequestParam String destinationLocationCode , 
 			@RequestParam String departureDate , @RequestParam Optional<String> returnDate, @RequestParam Integer adults, @RequestParam Boolean nonStop){
 		
