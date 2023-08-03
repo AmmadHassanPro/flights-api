@@ -39,7 +39,7 @@ public class MainController {
 	@GetMapping(EndpointUrls.GET_CITY_AND_AIRPORT+"/{keyword}")
 	public ResponseEntity<LocationApiDto> getCityAndAirports(@PathVariable String keyword, @RequestHeader(name="consumer-name") String consumerName
 			,@RequestHeader(name="request-uuid") String requuestUUID) {
-		String headersLog= "\n Consumer Name: "+consumerName+" , Request UUID: "+requuestUUID+"\n";
+		String headersLog= "{Consumer Name: "+consumerName+" , Request UUID: "+requuestUUID+"}";
 		logger.info("Endpoint url "+EndpointUrls.GET_CITY_AND_AIRPORT+"/"+keyword + headersLog);
 		LocationApiDto resp = null;
 		try {
@@ -71,7 +71,7 @@ public class MainController {
 			@RequestParam String departureDate , @RequestParam Optional<String> returnDate, @RequestParam Integer adults, @RequestParam Boolean nonStop,
 			@RequestHeader(name="consumer-name") String consumerName
 			,@RequestHeader(name="request-uuid") String requuestUUID){
-		String headersLog= "\n Consumer Name: "+consumerName+" , Request UUID: "+requuestUUID+"\n";
+		String headersLog= "{Consumer Name: "+consumerName+" , Request UUID: "+requuestUUID+"}";
 		logger.info("Endpoint Url "+EndpointUrls.GET_OFFERS + headersLog);
 		logger.debug("originLocationCode:"+originLocationCode+", destinationLocationCode:"+destinationLocationCode+", "
 				+ "departureDate:"+departureDate+", returnDate:"+ (returnDate.isPresent() ? returnDate.get() : "") + ", adults:"+adults+", nonStop:"+nonStop + headersLog);
