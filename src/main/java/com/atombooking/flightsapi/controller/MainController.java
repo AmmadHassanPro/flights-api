@@ -88,6 +88,8 @@ public class MainController {
 		}
 		
 		if(resp== null || resp.getData()== null || resp.getData().size()==0) {
+			logger.info("Empty Response" + headersLog);
+			logger.info("returning: "+ HttpStatus.NOT_FOUND + headersLog);
 			return new ResponseEntity<>(new FlightOffersResponse(), HttpStatus.NOT_FOUND);
 		}
 		logger.info("Returning Response, status: "+ HttpStatus.OK + headersLog);
