@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.atombooking.flightsapi.config.ConfigConstants;
 import com.atombooking.flightsapi.config.EndpointUrls;
 import com.atombooking.flightsapi.response.flightofffers.FlightOffersResponse;
 import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
@@ -34,8 +35,8 @@ public class MainController {
 	}
 	
 	@GetMapping(EndpointUrls.GET_CITY_AND_AIRPORT+"/{keyword}")
-	public ResponseEntity<LocationApiDto> getCityAndAirports(@PathVariable String keyword, @RequestHeader(name="consumer-name") String consumerName
-			,@RequestHeader(name="request-uuid") String requuestUUID) {
+	public ResponseEntity<LocationApiDto> getCityAndAirports(@PathVariable String keyword, @RequestHeader(name=ConfigConstants.HEADER_CONSUMER_NAME) String consumerName
+			,@RequestHeader(name=ConfigConstants.HEADER_REQUEST_UUID) String requuestUUID) {
 		LocationApiDto resp = null;
 		try {
 		resp =  cAService.getCityAndAirport(keyword);
@@ -53,8 +54,8 @@ public class MainController {
 	@GetMapping(EndpointUrls.GET_OFFERS)
 	public ResponseEntity<FlightOffersResponse> getFlightOffers(@RequestParam String originLocationCode , @RequestParam String destinationLocationCode , 
 			@RequestParam String departureDate , @RequestParam Optional<String> returnDate, @RequestParam Integer adults, @RequestParam Boolean nonStop,
-			@RequestHeader(name="consumer-name") String consumerName
-			,@RequestHeader(name="request-uuid") String requuestUUID){
+			@RequestHeader(name=ConfigConstants.HEADER_CONSUMER_NAME) String consumerName
+			,@RequestHeader(name=ConfigConstants.HEADER_REQUEST_UUID) String requuestUUID){
 		LocalDate dep = LocalDate.parse(departureDate);
 		Optional<LocalDate> ret =  (returnDate.isEmpty()) ? Optional.empty() : Optional.of(LocalDate.parse(returnDate.get()));
 		FlightOffersResponse resp = null;

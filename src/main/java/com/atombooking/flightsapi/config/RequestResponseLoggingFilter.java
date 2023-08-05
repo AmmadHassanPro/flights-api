@@ -26,8 +26,6 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
  */
 @Component
 public class RequestResponseLoggingFilter extends OncePerRequestFilter {
-	private final String requuestUUID = "request-uuid";
-	private final String consumerName = "consumer-name";
 	private static Logger logger = LoggerFactory.getLogger(RequestResponseLoggingFilter.class);
 
 	@Override
@@ -36,10 +34,10 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
 		
 		 ContentCachingRequestWrapper req = new ContentCachingRequestWrapper(request); // This will copy the original request
 	        ContentCachingResponseWrapper resp = new ContentCachingResponseWrapper(response); // This will copy the original response
-	        if(req.getHeader(requuestUUID)!= null && !req.getHeader(requuestUUID).isEmpty() && req.getHeader(consumerName)!= null && !req.getHeader(consumerName).isEmpty()) {
+	        if(req.getHeader(ConfigConstants.HEADER_REQUEST_UUID)!= null && !req.getHeader(ConfigConstants.HEADER_REQUEST_UUID).isEmpty() && req.getHeader(ConfigConstants.HEADER_CONSUMER_NAME)!= null && !req.getHeader(ConfigConstants.HEADER_CONSUMER_NAME).isEmpty()) {
 	        	// Putting the uuid and consumer name to MDC for better tractability 
-	        	MDC.put(requuestUUID, req.getHeader(requuestUUID)); 
-	        	MDC.put(consumerName, req.getHeader(consumerName));
+	        	MDC.put(ConfigConstants.HEADER_REQUEST_UUID, req.getHeader(ConfigConstants.HEADER_REQUEST_UUID)); 
+	        	MDC.put(ConfigConstants.HEADER_CONSUMER_NAME, req.getHeader(ConfigConstants.HEADER_CONSUMER_NAME));
 	        }
 	        
 	        String reqQueryString = request.getQueryString();
