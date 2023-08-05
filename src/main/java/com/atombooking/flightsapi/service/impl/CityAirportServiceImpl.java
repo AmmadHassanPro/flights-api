@@ -1,5 +1,7 @@
 package com.atombooking.flightsapi.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class CityAirportServiceImpl implements CityAirportService {
+	private static Logger logger = LoggerFactory.getLogger(CityAirportServiceImpl.class);
 	
 	private WebClient client;
 	private String base;
@@ -26,6 +29,7 @@ public class CityAirportServiceImpl implements CityAirportService {
 	
 	@Override
 	public LocationApiDto getCityAndAirport(String keyword) {
+		logger.info("Calling Rest Service URL: " + base+endpointUrl+keyword);
 		Mono<LocationAPIResponse> resp = client.get().uri(base+endpointUrl+keyword).retrieve().bodyToMono(LocationAPIResponse.class);
 		return LocationApiDtoConverter.getInstance().convertToDto(resp.block());
 	}

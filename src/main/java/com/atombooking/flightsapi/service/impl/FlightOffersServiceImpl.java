@@ -3,6 +3,8 @@ package com.atombooking.flightsapi.service.impl;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,6 +15,7 @@ import com.atombooking.flightsapi.service.FlightOffersService;
 import reactor.core.publisher.Mono;
 @Service
 public class FlightOffersServiceImpl implements FlightOffersService{
+	private static Logger logger = LoggerFactory.getLogger(FlightOffersServiceImpl.class);
 
 	private WebClient client;
 	private String base;
@@ -28,6 +31,10 @@ public class FlightOffersServiceImpl implements FlightOffersService{
 	
 	@Override
 	public FlightOffersResponse getFlightOffers(String Orig, String Dest, LocalDate Depart, Optional<LocalDate> Return, Integer numberOfAdults, boolean nonStop) {
+		logger.info("Calling Rest Service Endpoint URL: "+ base+ endpointUrl);
+		
+		logger.debug("Orig:"+Orig+", Dest:"+Dest+", "
+				+ "Depart:"+Depart+", Return:"+ (Return.isPresent() ? Return.get() : "") + ", numberOfAdults:"+numberOfAdults+", nonStop:"+nonStop);
 		
 		Mono<FlightOffersResponse> resp = client.get().uri(base+ endpointUrl, 
 				uriBuilder ->
