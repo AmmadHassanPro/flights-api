@@ -21,6 +21,14 @@ import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
 import com.atombooking.flightsapi.service.CityAirportService;
 import com.atombooking.flightsapi.service.FlightOffersService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Content;
+@Tag(name = "Main Controller", description = "The controller that contains all the endpoints")
+
 @RestController
 @RequestMapping(EndpointUrls.MAIN_CONTROLLER_V1)
 public class MainController {
@@ -33,7 +41,14 @@ public class MainController {
 		this.cAService= cA;
 		this.fOService = fO;
 	}
-	
+	 @Operation(
+		      summary = "Retrieve city and associated airport information by providing keyword",
+		      description = "Find city and associated airports by providing keyword. The keyword can match a city name or an airport. "
+		      + "This endpoint supports searching city or airport by providing the keyword, It Response would contain the cities with associated airports",
+		      tags = { "Search Cities", "Search Airports" })
+	 @ApiResponses({
+	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = LocationApiDto.class), mediaType = "application/json")})
+	 })
 	@GetMapping(EndpointUrls.GET_CITY_AND_AIRPORT+"/{keyword}")
 	public ResponseEntity<LocationApiDto> getCityAndAirports(@PathVariable String keyword, @RequestHeader(name=ConfigConstants.HEADER_CONSUMER_NAME) String consumerName
 			,@RequestHeader(name=ConfigConstants.HEADER_REQUEST_UUID) String requuestUUID) {
@@ -50,7 +65,13 @@ public class MainController {
 		}
 		return new ResponseEntity<>(resp, HttpStatus.OK);
 	}
-	
+	 @Operation(
+		      summary = "Retrieve Flight Offers from multiple airlines",
+		      description = "Find the flight offers from multiple airlines all over the world.",
+		      tags = { "Search Flight Offers" })
+	 @ApiResponses({
+	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = FlightOffersResponse.class), mediaType = "application/json")})
+	 })
 	@GetMapping(EndpointUrls.GET_OFFERS)
 	public ResponseEntity<FlightOffersResponse> getFlightOffers(@RequestParam String originLocationCode , @RequestParam String destinationLocationCode , 
 			@RequestParam String departureDate , @RequestParam Optional<String> returnDate, @RequestParam Integer adults, @RequestParam Boolean nonStop,

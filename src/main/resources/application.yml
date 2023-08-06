@@ -15,11 +15,15 @@ spring:
             client-id: '${CLIENT_ID}'
             client-secret: '${CLIENT_SECRET}'
             authorization-grant-type: client_credential
+
+
 amadeus:
   base: 'https://test.api.amadeus.com/'
   airportAndCityEndpoint: 'v1/reference-data/locations?subType=CITY,AIRPORT&keyword='
   flightOffersEndpoint: 'v2/shopping/flight-offers'
   maxNumberOfFlights: '10'
+
+
   
 logging:
   level:
@@ -29,3 +33,9 @@ logging:
     path: C:\Users\ammad\logs
   pattern:
     file: '%d{HH:mm:ss.SSS} | uuid: %X{request-uuid} , consumer: %X{consumer-name} | [%thread] %-5level %logger{36} - %msg%n'
+    
+    
+atombooking:
+  open-api-spec:
+    dev-url: http://localhost:8080
+    prod-url: http://localhost:8080
