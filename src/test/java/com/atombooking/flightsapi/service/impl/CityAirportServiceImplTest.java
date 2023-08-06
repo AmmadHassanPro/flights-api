@@ -19,7 +19,6 @@ import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-import okhttp3.mockwebserver.MockWebServer;
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
 class CityAirportServiceImplTest {
@@ -28,7 +27,6 @@ class CityAirportServiceImplTest {
 	@Value("${amadeus.airportAndCityEndpoint}")
 	String airportAndCityEndpoint;
 	static CityAirportServiceImpl obj;
-	static MockWebServer mockBackEnd;
 	static WireMockServer wireMockServer;
 	static int port = 8090;
 	static String baseUrl = String.format("http://localhost:%s",port) + "/";
