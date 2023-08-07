@@ -23,6 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.MultiValueMap;
 
+import com.atombooking.flightsapi.config.ConfigConstants;
 import com.atombooking.flightsapi.converters.LocationApiDtoConverter;
 import com.atombooking.flightsapi.response.flightofffers.Data;
 import com.atombooking.flightsapi.response.flightofffers.FlightOffersResponse;
@@ -54,7 +55,7 @@ public class MainControllerTest {
 		
 		when(cAService.getCityAndAirport(eq("Chicago"))).thenReturn(getTestResp());
 		
-		this.mockMvc.perform(get("/v1/flights-api/get-city-and-airport/Chicago")).andExpect(status().isOk())
+		this.mockMvc.perform(get("/v1/flights-api/get-city-and-airport/Chicago").header(ConfigConstants.HEADER_CONSUMER_NAME, "JUNIT").header(ConfigConstants.HEADER_REQUEST_UUID, "abc-123-456")).andExpect(status().isOk())
 		.andExpect(content().string(containsString("O HARE INTERNATIONAL")));
 		
 	}
@@ -63,7 +64,7 @@ public class MainControllerTest {
 	public void shouldReturn404ForCityAndAirports() throws Exception {
 		when(cAService.getCityAndAirport(eq("nonExistentCity"))).thenReturn(new LocationApiDto());
 		
-		this.mockMvc.perform(get("/v1/flights-api/get-city-and-airport/nonExistentCity")).andExpect(status().isNotFound());
+		this.mockMvc.perform(get("/v1/flights-api/get-city-and-airport/nonExistentCity").header(ConfigConstants.HEADER_CONSUMER_NAME, "JUNIT").header(ConfigConstants.HEADER_REQUEST_UUID, "abc-123-456")).andExpect(status().isNotFound());
 		
 	}
 	
@@ -87,7 +88,7 @@ public class MainControllerTest {
 		
 		when(fOService.getFlightOffers(source, dest, dep, Optional.of(ret), numOfAdults, nonStop)).thenReturn(getFlightOfferTestResp());
 		
-		this.mockMvc.perform(get("/v1/flights-api/get-offers").queryParams(queryParams)).andExpect(status().isOk());
+		this.mockMvc.perform(get("/v1/flights-api/get-offers").header(ConfigConstants.HEADER_CONSUMER_NAME, "JUNIT").header(ConfigConstants.HEADER_REQUEST_UUID, "abc-123-456").queryParams(queryParams)).andExpect(status().isOk());
 		
 	}
 	
