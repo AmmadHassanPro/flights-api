@@ -54,7 +54,7 @@ class CityAirportServiceImplTest {
 	
 	@AfterAll
 	static void shutDown() throws IOException {
-		wireMockServer.shutdown();
+		wireMockServer.stop();
 	}
 	
 }
