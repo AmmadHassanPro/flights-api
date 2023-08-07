@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.atombooking.flightsapi.converters.LocationApiDtoConverter;
-import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
+import com.atombooking.flightsapi.response.locationapi.LocationApiAggregatedResponse;
 import com.atombooking.flightsapi.response.locationapi.LocationAPIResponse;
 import com.atombooking.flightsapi.service.CityAirportService;
 
@@ -28,7 +28,7 @@ public class CityAirportServiceImpl implements CityAirportService {
 	}
 	
 	@Override
-	public LocationApiDto getCityAndAirport(String keyword) {
+	public LocationApiAggregatedResponse getCityAndAirport(String keyword) {
 		logger.info("Calling Rest Service URL: " + base+endpointUrl+keyword);
 		Mono<LocationAPIResponse> resp = client.get().uri(base+endpointUrl+keyword).retrieve().bodyToMono(LocationAPIResponse.class);
 		return LocationApiDtoConverter.getInstance().convertToDto(resp.block());

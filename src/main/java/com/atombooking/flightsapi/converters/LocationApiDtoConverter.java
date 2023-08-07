@@ -8,7 +8,7 @@ import java.util.Map;
 import com.atombooking.flightsapi.config.DatumMapper;
 import com.atombooking.flightsapi.response.locationapi.Datum;
 import com.atombooking.flightsapi.response.locationapi.Datum2;
-import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
+import com.atombooking.flightsapi.response.locationapi.LocationApiAggregatedResponse;
 import com.atombooking.flightsapi.response.locationapi.LocationAPIResponse;
 
 /*LocationApiDtoConverter aids in converting the response recieved from backend service LocationAPIResponse to LocationApiDto
@@ -34,9 +34,9 @@ public class LocationApiDtoConverter {
 	 * This method takes the response returned from the back end service and combines relevant airports and cities together
 	 * for easier readability by the consumers
 	 */
-	public LocationApiDto convertToDto(LocationAPIResponse resp) {
+	public LocationApiAggregatedResponse convertToDto(LocationAPIResponse resp) {
 		
-		LocationApiDto resp2 = new LocationApiDto();
+		LocationApiAggregatedResponse resp2 = new LocationApiAggregatedResponse();
 		List<Datum2> newData = new ArrayList<>();
 		resp2.setData(newData);
 		//go over responses and group the airports by the city code

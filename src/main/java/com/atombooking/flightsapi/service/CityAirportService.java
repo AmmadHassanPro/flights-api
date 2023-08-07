@@ -2,11 +2,11 @@ package com.atombooking.flightsapi.service;
 
 import org.springframework.stereotype.Service;
 
-import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
+import com.atombooking.flightsapi.response.locationapi.LocationApiAggregatedResponse;
 
 @Service
 public interface CityAirportService {
 
-	LocationApiDto getCityAndAirport(String keyword);
+	LocationApiAggregatedResponse getCityAndAirport(String keyword);
 	
 }

@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.atombooking.flightsapi.mocks.LocationApiMockReponse;
-import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
+import com.atombooking.flightsapi.response.locationapi.LocationApiAggregatedResponse;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
@@ -48,7 +48,7 @@ class CityAirportServiceImplTest {
 				get(urlEqualTo("/"+airportAndCityEndpoint+keyword)).willReturn(ok().withStatus(200).withBody(LocationApiMockReponse.MOCK_REPONSE).withHeader("Content-Type", "application/json"))
 				);
 			
-		LocationApiDto resp = obj.getCityAndAirport("chicago");
+		LocationApiAggregatedResponse resp = obj.getCityAndAirport("chicago");
 		Assertions.assertTrue(!resp.getData().isEmpty());
 	}
 	

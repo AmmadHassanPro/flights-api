@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.atombooking.flightsapi.config.ConfigConstants;
 import com.atombooking.flightsapi.config.EndpointUrls;
 import com.atombooking.flightsapi.response.flightofffers.FlightOffersResponse;
-import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
+import com.atombooking.flightsapi.response.locationapi.LocationApiAggregatedResponse;
 import com.atombooking.flightsapi.service.CityAirportService;
 import com.atombooking.flightsapi.service.FlightOffersService;
 
@@ -47,21 +47,21 @@ public class MainController {
 		      + "This endpoint supports searching city or airport by providing the keyword, It Response would contain the cities with associated airports",
 		      tags = { "Search Cities", "Search Airports" })
 	 @ApiResponses({
-	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = LocationApiDto.class), mediaType = "application/json")})
+	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = LocationApiAggregatedResponse.class), mediaType = "application/json")})
 	 })
 	@GetMapping(EndpointUrls.GET_CITY_AND_AIRPORT+"/{keyword}")
-	public ResponseEntity<LocationApiDto> getCityAndAirports(@PathVariable String keyword, @RequestHeader(name=ConfigConstants.HEADER_CONSUMER_NAME) String consumerName
+	public ResponseEntity<LocationApiAggregatedResponse> getCityAndAirports(@PathVariable String keyword, @RequestHeader(name=ConfigConstants.HEADER_CONSUMER_NAME) String consumerName
 			,@RequestHeader(name=ConfigConstants.HEADER_REQUEST_UUID) String requuestUUID) {
-		LocationApiDto resp = null;
+		LocationApiAggregatedResponse resp = null;
 		try {
 		resp =  cAService.getCityAndAirport(keyword);
 		}
 		catch(Exception ex) {
 			logger.info(ex.toString());
-			return new ResponseEntity<>(new LocationApiDto(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new LocationApiAggregatedResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		if( resp.getData() == null || resp.getData().size() == 0) {
-			return new ResponseEntity<>(new LocationApiDto(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new LocationApiAggregatedResponse(), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(resp, HttpStatus.OK);
 	}

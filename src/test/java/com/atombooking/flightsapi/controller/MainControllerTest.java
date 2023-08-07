@@ -30,7 +30,7 @@ import com.atombooking.flightsapi.response.flightofffers.FlightOffersResponse;
 import com.atombooking.flightsapi.response.locationapi.Address;
 import com.atombooking.flightsapi.response.locationapi.Datum;
 import com.atombooking.flightsapi.response.locationapi.LocationAPIResponse;
-import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
+import com.atombooking.flightsapi.response.locationapi.LocationApiAggregatedResponse;
 import com.atombooking.flightsapi.service.CityAirportService;
 import com.atombooking.flightsapi.service.FlightOffersService;
 
@@ -62,7 +62,7 @@ public class MainControllerTest {
 	
 	@Test
 	public void shouldReturn404ForCityAndAirports() throws Exception {
-		when(cAService.getCityAndAirport(eq("nonExistentCity"))).thenReturn(new LocationApiDto());
+		when(cAService.getCityAndAirport(eq("nonExistentCity"))).thenReturn(new LocationApiAggregatedResponse());
 		
 		this.mockMvc.perform(get("/v1/flights-api/get-city-and-airport/nonExistentCity").header(ConfigConstants.HEADER_CONSUMER_NAME, "JUNIT").header(ConfigConstants.HEADER_REQUEST_UUID, "abc-123-456")).andExpect(status().isNotFound());
 		
@@ -93,7 +93,7 @@ public class MainControllerTest {
 	}
 	
 	
-	private LocationApiDto getTestResp() {
+	private LocationApiAggregatedResponse getTestResp() {
 		LocationAPIResponse testResp = new LocationAPIResponse();
 		
 		

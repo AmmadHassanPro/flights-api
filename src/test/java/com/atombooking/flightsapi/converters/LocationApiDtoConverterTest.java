@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import com.atombooking.flightsapi.response.locationapi.Address;
 import com.atombooking.flightsapi.response.locationapi.Datum;
 import com.atombooking.flightsapi.response.locationapi.LocationAPIResponse;
-import com.atombooking.flightsapi.response.locationapi.LocationApiDto;
+import com.atombooking.flightsapi.response.locationapi.LocationApiAggregatedResponse;
 
 public class LocationApiDtoConverterTest {
 
@@ -18,7 +18,7 @@ public class LocationApiDtoConverterTest {
 	public void convertToDtoTest() {
 		
 		LocationAPIResponse testResp = getTestResp();
-		LocationApiDto dto = LocationApiDtoConverter.getInstance().convertToDto(testResp);
+		LocationApiAggregatedResponse dto = LocationApiDtoConverter.getInstance().convertToDto(testResp);
 		
 		assertEquals(1 , dto.getData().size());
 		assertEquals("CHICAGO", dto.getData().get(0).getName());
