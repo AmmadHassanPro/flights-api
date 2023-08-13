@@ -3,6 +3,7 @@ package com.atombooking.flightsapi.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -30,7 +31,23 @@ public class CityAirportServiceImpl implements CityAirportService {
 	@Override
 	public LocationApiAggregatedResponse getCityAndAirport(String keyword) {
 		logger.info("Calling Rest Service URL: " + base+endpointUrl+keyword);
-		Mono<LocationAPIResponse> resp = client.get().uri(base+endpointUrl+keyword).retrieve().bodyToMono(LocationAPIResponse.class);
+		Mono<LocationAPIResponse> resp = client.get().uri(base+endpointUrl+keyword).retrieve()
+				// As per the api specs, handling the error codes and logging the response
+				.onStatus(HttpStatus.BAD_REQUEST::equals, response -> {
+					Mono<String> errorRes = response.bodyToMono(String.class);
+					logger.info("Error Occured while calling the API.");
+					logger.info(errorRes.block());
+					return errorRes.map(Exception::new);
+					
+				})
+				.onStatus(HttpStatus.INTERNAL_SERVER_ERROR::equals, response -> {
+					Mono<String> errorRes = response.bodyToMono(String.class);
+					logger.info("Error Occured while calling the API.");
+					logger.info(errorRes.block());
+					return errorRes.map(Exception::new);
+					
+				}) 
+				.bodyToMono(LocationAPIResponse.class);
 		return LocationApiDtoConverter.getInstance().convertToDto(resp.block());
 	}
 
