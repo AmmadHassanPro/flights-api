@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -59,20 +58,6 @@ public class FlightOffersServiceImpl implements FlightOffersService{
 			}
 				)
 				.retrieve()
-				.onStatus(HttpStatus.BAD_REQUEST::equals, response -> {
-					Mono<String> errorRes = response.bodyToMono(String.class);
-					logger.info("Error Occured while calling the API.");
-					logger.info(errorRes.block());
-					return errorRes.map(Exception::new);
-					
-				})
-				.onStatus(HttpStatus.INTERNAL_SERVER_ERROR::equals, response -> {
-					Mono<String> errorRes = response.bodyToMono(String.class);
-					logger.info("Error Occured while calling the API.");
-					logger.info(errorRes.block());
-					return errorRes.map(Exception::new);
-					
-				}) 
 				.bodyToMono(FlightOffersResponse.class);
 		
 		return resp.block();
