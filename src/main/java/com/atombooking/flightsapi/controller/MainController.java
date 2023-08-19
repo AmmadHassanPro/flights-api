@@ -7,12 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.atombooking.flightsapi.config.ConfigConstants;
 import com.atombooking.flightsapi.config.EndpointUrls;
@@ -50,16 +52,14 @@ public class MainController {
 	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = LocationApiAggregatedResponse.class), mediaType = "application/json")})
 	 })
 	@GetMapping(EndpointUrls.GET_CITY_AND_AIRPORT+"/{keyword}")
-	public ResponseEntity<LocationApiAggregatedResponse> getCityAndAirports(@PathVariable String keyword, @RequestHeader(name=ConfigConstants.HEADER_CONSUMER_NAME) String consumerName
-			,@RequestHeader(name=ConfigConstants.HEADER_REQUEST_UUID) String requuestUUID) {
+	public ResponseEntity<LocationApiAggregatedResponse> getCityAndAirports(
+			@PathVariable String keyword, 
+			@RequestHeader(name=ConfigConstants.HEADER_CONSUMER_NAME) String consumerName,
+			@RequestHeader(name=ConfigConstants.HEADER_REQUEST_UUID) String requuestUUID) {
+		 
 		LocationApiAggregatedResponse resp = null;
-		try {
 		resp =  cAService.getCityAndAirport(keyword);
-		}
-		catch(Exception ex) {
-			logger.info(ex.toString());
-			return new ResponseEntity<>(new LocationApiAggregatedResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		
 		if( resp.getData() == null || resp.getData().size() == 0) {
 			return new ResponseEntity<>(new LocationApiAggregatedResponse(), HttpStatus.NOT_FOUND);
 		}
@@ -73,26 +73,47 @@ public class MainController {
 	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = FlightOffersResponse.class), mediaType = "application/json")})
 	 })
 	@GetMapping(EndpointUrls.GET_OFFERS)
-	public ResponseEntity<FlightOffersResponse> getFlightOffers(@RequestParam String originLocationCode , @RequestParam String destinationLocationCode , 
-			@RequestParam String departureDate , @RequestParam Optional<String> returnDate, @RequestParam Integer adults, @RequestParam Boolean nonStop,
-			@RequestHeader(name=ConfigConstants.HEADER_CONSUMER_NAME) String consumerName
-			,@RequestHeader(name=ConfigConstants.HEADER_REQUEST_UUID) String requuestUUID){
+	public ResponseEntity<FlightOffersResponse> getFlightOffers(
+			@RequestParam String originLocationCode , 
+			@RequestParam String destinationLocationCode , 
+			@RequestParam String departureDate , 
+			@RequestParam Optional<String> returnDate, 
+			@RequestParam Integer adults, 
+			@RequestParam Boolean nonStop,
+			@RequestHeader(name=ConfigConstants.HEADER_CONSUMER_NAME) String consumerName,
+			@RequestHeader(name=ConfigConstants.HEADER_REQUEST_UUID) String requuestUUID){
+		 
 		LocalDate dep = LocalDate.parse(departureDate);
 		Optional<LocalDate> ret =  (returnDate.isEmpty()) ? Optional.empty() : Optional.of(LocalDate.parse(returnDate.get()));
 		FlightOffersResponse resp = null;
-		try {
 		resp = fOService.getFlightOffers(originLocationCode, destinationLocationCode, dep, ret, adults, nonStop);
-		}
-		catch (Exception ex) {
-			logger.info(ex.toString());
-			return new ResponseEntity<>(new FlightOffersResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
 		
 		if(resp== null || resp.getData()== null || resp.getData().size()==0) {
 			return new ResponseEntity<>(new FlightOffersResponse(), HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(resp, HttpStatus.OK);
-		
+		return new ResponseEntity<>(resp, HttpStatus.OK);		
 	}
+	 
+	 
+	 @ExceptionHandler(WebClientResponseException.class)
+	 public ResponseEntity<String> handleApiError(WebClientResponseException ex){
+		 
+		 logger.info("Exception from api");
+		 logger.info("Status Code: "+ ex.getStatusCode());
+		 logger.info("Error Response Recieved: " + ex.getResponseBodyAsString());
+		 logger.info("Exception Message : " + ex.getMessage());
+		 logger.info("Headers recieved:" +ex.getHeaders());
+		 
+		 return ResponseEntity.status(ex.getStatusCode()).headers(ex.getHeaders()).body(ex.getResponseBodyAsString());
+	 }
+	 
+	 @ExceptionHandler(Exception.class)
+	 public ResponseEntity<String> handleAllOtherErrors(Exception ex){
+		 
+		 logger.info("Exception while calling the api");
+		 logger.info(ex.toString());
+		 
+		 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	 }
 
 }
