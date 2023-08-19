@@ -18,17 +18,21 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import com.atombooking.flightsapi.config.ConfigConstants;
 import com.atombooking.flightsapi.config.EndpointUrls;
+import com.atombooking.flightsapi.config.SwaggerConstantants;
+import com.atombooking.flightsapi.response.error.ErrorResponse;
 import com.atombooking.flightsapi.response.flightofffers.FlightOffersResponse;
 import com.atombooking.flightsapi.response.locationapi.LocationApiAggregatedResponse;
 import com.atombooking.flightsapi.service.CityAirportService;
 import com.atombooking.flightsapi.service.FlightOffersService;
 
 import io.swagger.v3.oas.annotations.Operation;
+
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 @Tag(name = "Main Controller", description = "The controller that contains all the endpoints")
 
 @RestController
@@ -48,9 +52,25 @@ public class MainController {
 		      description = "Find city and associated airports by providing keyword. The keyword can match a city name or an airport. "
 		      + "This endpoint supports searching city or airport by providing the keyword, It Response would contain the cities with associated airports",
 		      tags = { "Search Cities", "Search Airports" })
+	 
 	 @ApiResponses({
-	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = LocationApiAggregatedResponse.class), mediaType = "application/json")})
+	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = LocationApiAggregatedResponse.class), mediaType = "application/json")}),
+	      @ApiResponse(responseCode = "400", description = SwaggerConstantants.CODES_TABLE_CITY_AND_AIRPORT,content = { @Content(schema = @Schema(implementation = ErrorResponse.class),
+	      mediaType = "application/json",
+	      examples = @ExampleObject(
+                  name = "Request Error", 
+                  value = SwaggerConstantants.ERROR_400_CITY_AND_AIRPORT_RESPONSE_EXAMPLE))}),
+	      @ApiResponse(responseCode = "404",content = { @Content(schema = @Schema(implementation = ErrorResponse.class),
+	      mediaType = "application/json",
+	      examples = @ExampleObject(
+                  name = "Not Found", 
+                  value = SwaggerConstantants.ERROR_404_CITY_AND_AIRPORT_RESPONSE_EXAMPLE))}),
+	      @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json",
+	      examples = @ExampleObject(
+                  name = "Unexpected Error", 
+                  value = SwaggerConstantants.ERROR_UNEXPECTED_EX_RESPONSE_EXAMPLE))})
 	 })
+	 
 	@GetMapping(EndpointUrls.GET_CITY_AND_AIRPORT+"/{keyword}")
 	public ResponseEntity<LocationApiAggregatedResponse> getCityAndAirports(
 			@PathVariable String keyword, 
@@ -69,9 +89,19 @@ public class MainController {
 		      summary = "Retrieve Flight Offers from multiple airlines",
 		      description = "Find the flight offers from multiple airlines all over the world.",
 		      tags = { "Search Flight Offers" })
+	 
 	 @ApiResponses({
-	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = FlightOffersResponse.class), mediaType = "application/json")})
+	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = FlightOffersResponse.class), mediaType = "application/json")}),
+	      @ApiResponse(responseCode = "400", description = SwaggerConstantants.CODES_TABLE_GET_OFFERS,content = { @Content(schema = @Schema(implementation = ErrorResponse.class),
+	      mediaType = "application/json",
+	      examples = @ExampleObject(
+                  name = "Request Error", 
+                  value = SwaggerConstantants.ERROR_400_GET_OFFERS_RESPONSE_EXAMPLE))}),
+	      @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json",examples = @ExampleObject(
+                  name = "Unexpected Error", 
+                  value = SwaggerConstantants.ERROR_UNEXPECTED_EX_RESPONSE_EXAMPLE))})
 	 })
+	 
 	@GetMapping(EndpointUrls.GET_OFFERS)
 	public ResponseEntity<FlightOffersResponse> getFlightOffers(
 			@RequestParam String originLocationCode , 
@@ -94,7 +124,7 @@ public class MainController {
 		return new ResponseEntity<>(resp, HttpStatus.OK);		
 	}
 	 
-	 
+	 // All errors/exceptions from the api side are handled in this method
 	 @ExceptionHandler(WebClientResponseException.class)
 	 public ResponseEntity<String> handleApiError(WebClientResponseException ex){
 		 
@@ -107,6 +137,7 @@ public class MainController {
 		 return ResponseEntity.status(ex.getStatusCode()).headers(ex.getHeaders()).body(ex.getResponseBodyAsString());
 	 }
 	 
+	 //All unexpected expections/errors are handled in this method
 	 @ExceptionHandler(Exception.class)
 	 public ResponseEntity<String> handleAllOtherErrors(Exception ex){
 		 
