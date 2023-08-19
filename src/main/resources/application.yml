@@ -28,7 +28,6 @@ amadeus:
 logging:
   level:
     com.atombooking.flightsapi: DEBUG
-    com.atombooking.flightsapi.controller: DEBUG
   file:
     path: C:\Users\ammad\logs
   pattern:
