@@ -19,7 +19,7 @@ spring:
 
 amadeus:
   base: 'https://test.api.amadeus.com/'
-  airportAndCityEndpoint: 'v1/reference-data/locations?subType=CITY,AIRPORT&keyword='
+  airport-and-city-endpoint: 'v1/reference-data/locations?subType=CITY,AIRPORT&keyword='
   flightOffersEndpoint: 'v2/shopping/flight-offers'
   maxNumberOfFlights: '10'
 

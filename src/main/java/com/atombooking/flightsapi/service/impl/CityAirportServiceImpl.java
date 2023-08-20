@@ -21,7 +21,7 @@ public class CityAirportServiceImpl implements CityAirportService {
 	private String base;
 	private String endpointUrl;
 	
-	public CityAirportServiceImpl(WebClient client,@Value("${amadeus.base}") String base,@Value("${amadeus.airportAndCityEndpoint}") String endpointUrl) {
+	public CityAirportServiceImpl(WebClient client,@Value("${amadeus.base}") String base,@Value("${amadeus.airport-and-city-endpoint}") String endpointUrl) {
 		this.client = client;
 		this.base= base;
 		this.endpointUrl = endpointUrl;

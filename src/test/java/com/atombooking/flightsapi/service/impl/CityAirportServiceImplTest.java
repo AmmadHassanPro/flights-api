@@ -24,7 +24,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 class CityAirportServiceImplTest {
 	@Autowired
 	WebClient client;
-	@Value("${amadeus.airportAndCityEndpoint}")
+	@Value("${amadeus.airport-and-city-endpoint}")
 	String airportAndCityEndpoint;
 	static CityAirportServiceImpl obj;
 	static WireMockServer wireMockServer;
