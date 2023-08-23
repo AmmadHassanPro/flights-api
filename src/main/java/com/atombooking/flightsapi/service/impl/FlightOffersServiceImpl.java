@@ -20,7 +20,7 @@ public class FlightOffersServiceImpl implements FlightOffersService{
 	private WebClient client;
 	private String base;
 	private String endpointUrl;
-	@Value("${amadeus.maxNumberOfFlights}")
+	@Value("${amadeus.max-number-of-flights}")
 	private int maxFlights = 1;
 	
 	public FlightOffersServiceImpl(WebClient client,@Value("${amadeus.base}") String base,@Value("${amadeus.flight-offers-endpoint}") String endpointUrl) {

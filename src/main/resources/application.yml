@@ -21,7 +21,7 @@ amadeus:
   base: 'https://test.api.amadeus.com/'
   airport-and-city-endpoint: 'v1/reference-data/locations?subType=CITY,AIRPORT&keyword='
   flight-offers-endpoint: 'v2/shopping/flight-offers'
-  maxNumberOfFlights: '10'
+  max-number-of-flights: '10'
 
 
   
