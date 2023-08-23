@@ -23,7 +23,7 @@ public class FlightOffersServiceImpl implements FlightOffersService{
 	@Value("${amadeus.maxNumberOfFlights}")
 	private int maxFlights = 1;
 	
-	public FlightOffersServiceImpl(WebClient client,@Value("${amadeus.base}") String base,@Value("${amadeus.flightOffersEndpoint}") String endpointUrl) {
+	public FlightOffersServiceImpl(WebClient client,@Value("${amadeus.base}") String base,@Value("${amadeus.flight-offers-endpoint}") String endpointUrl) {
 		this.client = client;
 		this.base= base;
 		this.endpointUrl = endpointUrl;

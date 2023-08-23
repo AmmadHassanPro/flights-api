@@ -26,7 +26,7 @@ public class FlightOffersServiceImplTest {
 	
 	FlightOffersServiceImpl service;
 	
-	@Value("${amadeus.flightOffersEndpoint}") 
+	@Value("${amadeus.flight-offers-endpoint}") 
 	String endpointUrl;
 	
 	String base = "http://localhost:"+port+"/";
