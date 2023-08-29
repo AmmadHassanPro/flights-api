@@ -1,40 +1,10 @@
 spring:
+  application:
+    name: flights-api
+  profiles:
+    active: dev
+  config:
+    import: "configserver:http://localhost:8888"
   cloud:
     config:
-      enabled: false
-  application:
-    name: outh2_WebClient
-  security:
-    oauth2:
-      client:
-        provider:
-          authProvider:
-            token-uri: 'https://test.api.amadeus.com/v1/security/oauth2/token'
-        registration:
-          authProvider:
-            client-id: '${CLIENT_ID}'
-            client-secret: '${CLIENT_SECRET}'
-            authorization-grant-type: client_credential
-
-
-amadeus:
-  base: 'https://test.api.amadeus.com/'
-  airport-and-city-endpoint: 'v1/reference-data/locations?subType=CITY,AIRPORT&keyword='
-  flight-offers-endpoint: 'v2/shopping/flight-offers'
-  max-number-of-flights: '10'
-
-
-  
-logging:
-  level:
-    com.atombooking.flightsapi: DEBUG
-  file:
-    path: C:\Users\ammad\logs
-  pattern:
-    file: '%d{HH:mm:ss.SSS} | uuid: %X{request-uuid} , consumer: %X{consumer-name} | [%thread] %-5level %logger{36} - %msg%n'
-    
-    
-atombooking:
-  open-api-spec:
-    dev-url: http://localhost:8080
-    prod-url: http://localhost:8080
+      uri:  "http://localhost:8888"
