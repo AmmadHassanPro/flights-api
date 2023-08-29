@@ -2,7 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.11'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'com.diffplug.eclipse.apt' version '3.37.2'
+	id 'com.diffplug.eclipse.apt' version '3.42.2'
 }
 
 group = 'com.atombooking'
@@ -21,6 +21,7 @@ repositories {
 
 ext {
 	set('springCloudVersion', "2021.0.7")
+	mapstructVersion = "1.5.5.Final"
 }
 
 dependencies {
@@ -33,12 +34,13 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     testImplementation "com.github.tomakehurst:wiremock-jre8:2.35.0"
     testImplementation "org.assertj:assertj-core:3.24.2"
     
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
 }
 
@@ -50,4 +52,10 @@ dependencyManagement {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs = [
+            '-Amapstruct.suppressGeneratorTimestamp=true'
+    ]
 }
