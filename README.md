@@ -25,3 +25,8 @@ It uses following technologies:
 
   
 ![hd-diagram](https://github.com/AmmadHassanPro/flights-api/assets/20376377/6769fa85-2fb5-4b77-aa25-8dfd1d6a38fc)
+
+
+### Dependencies
+Since it uses config server to fetch the configuration , it is important that the config server is running, the code is currently hosted at: [Github Link](https://github.com/AmmadHassanPro/flights-api-config-server)
+
