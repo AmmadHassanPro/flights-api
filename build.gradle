@@ -21,7 +21,7 @@ repositories {
 
 ext {
 	set('springCloudVersion', "2021.0.7")
-	mapstructVersion = "1.5.5.Final"
+	set('mapstructVersion', "1.5.5.Final")
 }
 
 dependencies {
