@@ -114,7 +114,7 @@ public class MainController {
 			@RequestHeader(name=ConfigConstants.HEADER_REQUEST_UUID) String requuestUUID){
 		 
 		LocalDate dep = LocalDate.parse(departureDate);
-		Optional<LocalDate> ret =  (returnDate.isEmpty()) ? Optional.empty() : Optional.of(LocalDate.parse(returnDate.get()));
+		Optional<LocalDate> ret =  (returnDate.isPresent()) ? Optional.of(LocalDate.parse(returnDate.get())) : Optional.empty() ;
 		FlightOffersResponse resp = null;
 		resp = fOService.getFlightOffers(originLocationCode, destinationLocationCode, dep, ret, adults, nonStop);
 		

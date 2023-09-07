@@ -1,5 +1,6 @@
 package com.atombooking.flightsapi.config;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -44,6 +45,9 @@ public class ApiSpecConfig {
 		info.contact(contact);
 		info.setLicense(mitLicense);
 		
-		return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
+		List<Server> list = new ArrayList<>();
+		list.add(devServer);list.add(prodServer);
+		
+		return new OpenAPI().info(info).servers(list);
 	}
 }
