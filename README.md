@@ -12,8 +12,8 @@ The Flights API is an enterprise grade Spring Boot microservice , that provides 
  
 ### Technologies
 It uses following technologies:
-- Spring Boot
 - Java 8
+- Spring Boot
 - Spring Security
 - Spring Cloud Config Server
 - Oauth2 Client
@@ -30,6 +30,12 @@ It uses following technologies:
 ### Dependencies
 - Register to get the api keys on the [Amadeus Platform](https://developers.amadeus.com/)
 - Since it uses config server to fetch the configuration , it is important that the config server is running, the code is currently hosted at: [Github Link](https://github.com/AmmadHassanPro/flights-api-config-server)
+- Must have Java 8 or higher
 
-
+### Running Instructions
+- Upon resgisterin to Amadeus platform, you will get Client Id and Client Secret, Please add an environment variable in your machine named 'CLIENT_ID' and 'CLIENT_SECRET' with their corresponding values obtained from the platform.
+- Run the config server by downloading the code (mentioned above).
+- Run the 'flights-api'  by downloading the code and on the root directory of code, type './gradlew bootRun' on terminal.
+- Inspect the swagger api at url : http://localhost:8080/swagger-ui/index.html
+  
 
