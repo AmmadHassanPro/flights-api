@@ -1462,3 +1462,8 @@ Notice how it grouped the city and its corresponding airports togeather. Next, y
     }
 }
 ~~~
+
+### References
+- Amadeus Airport and City Search API [Documenataion](https://developers.amadeus.com/self-service/category/flights/api-doc/airport-and-city-search/api-reference)
+- Amadeus Flight Offers Search [Documenataion](https://developers.amadeus.com/self-service/category/flights/api-doc/flight-offers-search/api-reference)
+- Amadeus Apis [Postman Collection](https://www.postman.com/amadeus4dev/workspace/amadeus-for-developers-s-public-workspace/documentation/2672636-27471449-d2ca-a8c4-1399-6b0cfbddd079)
