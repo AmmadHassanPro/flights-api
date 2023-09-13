@@ -38,7 +38,12 @@ It uses following technologies:
 - Run the 'flights-api'  by downloading the code and on the root directory of code, type './gradlew bootRun' on terminal.
 - Inspect the swagger api at url : http://localhost:8080/swagger-ui/index.html
   
-### Flow of Getting Offers
+### Flow of Request for Getting Offers
+
+![FlowDiagram](https://github.com/AmmadHassanPro/flights-api/assets/20376377/ab6d870c-dda2-4537-b067-8ddd333b942c)
+
+
+
 Suppose that you would like to get best flight offers for a round trip from Chicago to Seattle. First you will call the endpoint "/get-city-and-airport/chicago" and perform a get request via postman but headers 'consumer-name' and 'request-uuid' are mandatory with whatever value you like. It should return a response something like this
 
 ~~~
