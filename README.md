@@ -10,6 +10,9 @@ The Flights API is an enterprise grade Spring Boot microservice , that provides 
 - #### /get-city-and-airport
   This HTTP/GET endpoint takes one path parameter about keyword and returns the list of matching cities aggregated with corresponding airports by consuming 'The Airport & City Search API' . It can be used to get IATA code of city or airport to form the request to get the offers. 
  
+### Swagger/API Doc
+Link to Swagger/API Doc can be found [Here](https://ammadhassanpro.github.io/flights-api-swagger-doc/) 
+
 ### Technologies
 It uses following technologies:
 - Java 8
